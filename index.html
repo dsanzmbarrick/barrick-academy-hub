@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Barrick Academy — Reports Hub</title>
+
+  <!-- Google Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* =========================================================
+       CSS CUSTOM PROPERTIES — Edit palette here
+    ========================================================= */
+    :root {
+      --blue:        #00557E;
+      --blue-dark:   #003F5E;
+      --blue-light:  #EBF4F8;
+      --blue-mid:    #C2DCE8;
+      --gold:        #A39161;
+      --gold-light:  #F5F1EA;
+      --gold-mid:    #D6C9A8;
+      --gray:        #979797;
+      --gray-light:  #F4F5F6;
+      --gray-mid:    #E4E6E9;
+      --text-dark:   #1A1F2B;
+      --text-mid:    #4A5066;
+      --text-soft:   #8A92A6;
+      --white:       #FFFFFF;
+      --bg:          #F7F8FA;
+      --radius-sm:   8px;
+      --radius-md:   14px;
+      --radius-lg:   22px;
+      --shadow-xs:   0 1px 4px rgba(0,0,0,0.06);
+      --shadow-sm:   0 2px 12px rgba(0,0,0,0.07);
+      --shadow-md:   0 6px 28px rgba(0,0,0,0.10);
+      --shadow-card: 0 2px 16px rgba(0, 85, 126, 0.07);
+      --transition:  0.22s ease;
+    }
+
+    /* =========================================================
+       RESET & BASE
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; outline: none; }
+
+    /* =========================================================
+       STICKY HEADER
+    ========================================================= */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-mid);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 48px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* Logo area */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .logo-img-wrap {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo-img-wrap img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--gray-mid);
+      flex-shrink: 0;
+    }
+
+    .logo-label {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .logo-name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14.5px;
+      color: var(--text-dark);
+      letter-spacing: 0.005em;
+      line-height: 1.2;
+    }
+
+    .logo-name span { color: var(--blue); }
+
+    .logo-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-soft);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Header right meta */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .header-meta {
+      font-size: 12.5px;
+      color: var(--text-soft);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    .header-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 8px;
+      background: var(--blue-light);
+      border: 1px solid var(--blue-mid);
+      border-radius: 40px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--blue);
+      white-space: nowrap;
+    }
+
+    .author-avatar {
+      width: 24px;
+      height: 24px;
+      background: var(--blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+
+    /* =========================================================
+       HERO SECTION
+    ========================================================= */
+    .hero {
+      background: var(--white);
+      padding: 72px 48px 68px;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-mid);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle decorative radial background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 60%, rgba(0,85,126,0.045) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 25%, rgba(163,145,97,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(0,85,126,0.025) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Thin gold decorative line at top of hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .hero-inner {
+      max-width: 660px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Logo displayed large in hero */
+    .hero-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-logo img {
+      height: 64px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+      padding: 6px 16px;
+      background: var(--gold-light);
+      border-radius: 40px;
+      border: 1px solid rgba(163,145,97,0.2);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 4.8vw, 54px);
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .hero-subtitle {
+      font-size: 15.5px;
+      font-weight: 400;
+      color: var(--text-mid);
+      max-width: 440px;
+      margin: 0 auto 10px;
+      line-height: 1.7;
+    }
+
+    .hero-author-line {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .hero-author-line span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-author-line strong {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    /* =========================================================
+       SEARCH BAR
+    ========================================================= */
+    .search-wrap {
+      max-width: 540px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 19px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+    .search-icon svg { width: 17px; height: 17px; }
+
+    #searchInput {
+      width: 100%;
+      padding: 14.5px 18px 14.5px 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-dark);
+      background: var(--white);
+      border: 1.5px solid var(--gray-mid);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+
+    #searchInput::placeholder { color: var(--text-soft); }
+
+    #searchInput:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(0,85,126,0.09), 0 2px 16px rgba(0,0,0,0.06);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--gray-mid);
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background var(--transition);
+      color: var(--text-mid);
+    }
+    .search-clear svg { width: 11px; height: 11px; }
+    .search-clear:hover { background: var(--gray); color: var(--white); }
+    .search-clear.visible { display: flex; }
+
+    /* Search summary */
+    .search-summary {
+      font-size: 12.5px;
+      color: var(--text-soft);
+      margin-top: 10px;
+      min-height: 20px;
+    }
+    .search-summary strong { color: var(--blue); font-weight: 600; }
+
+    /* =========================================================
+       MAIN CONTENT
+    ========================================================= */
+    .main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 52px 48px 80px;
+    }
+
+    /* =========================================================
+       STATS + FILTER BAR
+    ========================================================= */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 44px;
+      flex-wrap: wrap;
+    }
+
+    .stats-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 40px;
+      box-shadow: var(--shadow-xs);
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .stat-pill strong { font-weight: 600; color: var(--blue); }
+
+    .stat-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    /* Filter pills */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-soft);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-right: 3px;
+      white-space: nowrap;
+    }
+
+    .filter-btn {
+      padding: 7px 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      border-radius: 40px;
+      border: 1.5px solid var(--gray-mid);
+      background: var(--white);
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-light);
+    }
+
+    .filter-btn.active {
+      background: var(--blue);
+      color: var(--white);
+      border-color: var(--blue);
+      box-shadow: 0 2px 10px rgba(0,85,126,0.24);
+    }
+
+    /* =========================================================
+       CATEGORY SECTION HEADERS
+    ========================================================= */
+    .category-section { margin-bottom: 50px; }
+    .category-section:last-child { margin-bottom: 0; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    /* Icon accent for section */
+    .section-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-icon svg { width: 14px; height: 14px; color: var(--white); }
+
+    .section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      white-space: nowrap;
+    }
+
+    .section-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-soft);
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      padding: 2px 9px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gray-mid), transparent);
+    }
+
+    /* =========================================================
+       REPORT GRID
+    ========================================================= */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+    }
+
+    /* =========================================================
+       REPORT CARD
+    ========================================================= */
+    .report-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: var(--radius-md);
+      padding: 26px 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--shadow-card);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 0.38s ease both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animated top accent bar on hover */
+    .report-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-mid));
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .report-card:hover::before { transform: scaleX(1); }
+
+    .report-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--blue-mid);
+    }
+
+    /* Card top row */
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Category badge */
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 30px;
+      white-space: nowrap;
+    }
+
+    /* ─── Barrick Academy category badge colors ─── */
+    .badge-trainings   { background: #EBF4F8; color: #00557E; border: 1px solid #C2DCE8; }
+    .badge-learning    { background: #F0EEE9; color: #7A6B48; border: 1px solid #DDD8CB; }
+    .badge-internal    { background: #F0F4EE; color: #4E7040; border: 1px solid #C8D9C4; }
+    .badge-daily       { background: #F4F0F8; color: #6A5080; border: 1px solid #D4C8E4; }
+    .badge-general     { background: #FFF0EC; color: #884030; border: 1px solid #F0C8BC; }
+    .badge-inprogress  { background: #FFF8E6; color: #856020; border: 1px solid #E8D898; }
+    .badge-default     { background: var(--gray-light); color: var(--text-mid); border: 1px solid var(--gray-mid); }
+
+    /* Card icon box */
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-icon svg { width: 17px; height: 17px; color: var(--blue); }
+
+    /* Card body */
+    .card-body { flex: 1; }
+
+    .card-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.35;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-description {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+
+    /* Card footer */
+    .card-footer {
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Open button */
+    .btn-open {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      background: var(--blue);
+      border-radius: var(--radius-sm);
+      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .btn-open svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .btn-open:hover {
+      background: var(--blue-dark);
+      box-shadow: 0 4px 16px rgba(0,85,126,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-open:active { transform: translateY(0); }
+
+    /* Gold arrow icon link */
+    .card-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+    .card-arrow svg { width: 13px; height: 13px; }
+    .card-arrow:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-light); }
+
+    /* Pending / In Progress card state */
+    .card-pending {
+      opacity: 0.82;
+      background: var(--gray-light);
+      border-style: dashed;
+      border-color: var(--gray-mid);
+    }
+
+    .card-pending:hover {
+      transform: none;
+      box-shadow: var(--shadow-card);
+      border-color: var(--gray-mid);
+      cursor: default;
+    }
+
+    .card-pending::before { display: none; }
+
+    /* "Coming Soon" button state */
+    .btn-coming-soon {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-soft);
+      background: var(--gray-light);
+      border: 1.5px solid var(--gray-mid);
+      border-radius: var(--radius-sm);
+      cursor: default;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-coming-soon svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+    .empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .empty-state.visible { display: flex; }
+
+    .empty-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: var(--blue-light);
+      border: 1px solid var(--blue-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .empty-icon svg { width: 26px; height: 26px; color: var(--blue); opacity: 0.6; }
+
+    .empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .empty-sub {
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 320px;
+      line-height: 1.65;
+    }
+
+    .empty-reset {
+      margin-top: 24px;
+      padding: 10px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--blue);
+      background: var(--blue-light);
+      border: 1.5px solid var(--blue-mid);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .empty-reset:hover { background: var(--blue); color: var(--white); }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--gray-mid);
+      padding: 28px 48px;
+    }
+
+    .footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-logo img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      opacity: 0.8;
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: var(--text-soft);
+    }
+    .footer-copy strong { font-weight: 600; color: var(--text-mid); }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .footer-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--gray-mid);
+    }
+
+    /* =========================================================
+       CARD STAGGER ANIMATIONS
+    ========================================================= */
+    .report-card:nth-child(1)  { animation-delay: 0.03s; }
+    .report-card:nth-child(2)  { animation-delay: 0.07s; }
+    .report-card:nth-child(3)  { animation-delay: 0.11s; }
+    .report-card:nth-child(4)  { animation-delay: 0.15s; }
+    .report-card:nth-child(5)  { animation-delay: 0.19s; }
+    .report-card:nth-child(6)  { animation-delay: 0.23s; }
+    .report-card:nth-child(7)  { animation-delay: 0.27s; }
+    .report-card:nth-child(8)  { animation-delay: 0.31s; }
+    .report-card:nth-child(9)  { animation-delay: 0.35s; }
+    .report-card:nth-child(10) { animation-delay: 0.39s; }
+    .report-card:nth-child(11) { animation-delay: 0.43s; }
+    .report-card:nth-child(12) { animation-delay: 0.47s; }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 900px) {
+      .header-inner  { padding: 0 24px; }
+      .hero          { padding: 52px 24px 52px; }
+      .main          { padding: 36px 24px 60px; }
+      footer         { padding: 24px 24px; }
+      .stats-bar     { flex-direction: column; align-items: flex-start; }
+      .header-meta   { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .report-grid   { grid-template-columns: 1fr; }
+      .hero-logo img { height: 50px; }
+      .footer-right  { display: none; }
+      .logo-label    { display: none; }
+      .logo-divider  { display: none; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       STICKY HEADER
+  ============================================================ -->
+  <header class="header" role="banner">
+    <div class="header-inner">
+
+      <!-- Logo + name -->
+      <div class="logo">
+        <div class="logo-img-wrap">
+          <img
+            src="https://i.ibb.co/4ZfFhcZX/Logo-bcbbb.png"
+            alt="Barrick Academy logo"
+            onerror="this.style.display='none'"
+          />
+        </div>
+        <div class="logo-divider"></div>
+        <div class="logo-label">
+          <span class="logo-name">Barrick <span>Academy</span></span>
+          <span class="logo-sub">Reports Hub</span>
+        </div>
+      </div>
+
+      <!-- Right side: meta + author badge -->
+      <div class="header-right">
+        <span class="header-meta" id="headerMeta">Loading…</span>
+        <div class="header-author">
+          <div class="author-avatar">DS</div>
+          Darlene Sanz
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero" role="region" aria-label="Portal introduction">
+    <div class="hero-inner">
+
+      <!-- Logo repeated in hero for visual weight -->
+      <div class="hero-logo">
+        <img
+          src="https://i.ibb.co/4ZfFhcZX/Logo-bcbbb.png"
+          alt="Barrick Academy"
+          onerror="this.style.display='none'"
+        />
+      </div>
+
+      <div class="hero-eyebrow">Internal Training Portal</div>
+
+      <h1 class="hero-title">Barrick Academy<br/><em>Reports Hub</em></h1>
+
+      <p class="hero-subtitle">
+        Access all training systems reports, learning paths, and analytics in one organized, easy-to-navigate space.
+      </p>
+
+      <p class="hero-author-line">
+        <span>Maintained by <strong>Darlene Sanz</strong></span>
+      </p>
+
+      <!-- SEARCH BAR -->
+      <div class="search-wrap" role="search">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M12.5 12.5L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search reports by name, category, or keyword…"
+          autocomplete="off"
+          aria-label="Search reports"
+        />
+        <button class="search-clear" id="searchClear" aria-label="Clear search">
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="search-summary" id="searchSummary" aria-live="polite">&nbsp;</p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main class="main" role="main" id="mainContent">
+
+    <!-- STATS + FILTER ROW -->
+    <div class="stats-bar">
+      <div class="stats-bar-left">
+        <div class="stat-pill">
+          <span class="stat-dot"></span>
+          <span><strong id="totalCount">0</strong> Reports Available</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--gold)"></span>
+          <span><strong id="catCount">0</strong> Categories</span>
+        </div>
+      </div>
+
+      <!-- CATEGORY FILTER BUTTONS — generated by JS -->
+      <div class="filter-row" id="filterRow" role="group" aria-label="Filter by category">
+        <span class="filter-label">Filter</span>
+      </div>
+    </div>
+
+    <!-- REPORT SECTIONS — generated by JS -->
+    <div id="reportSections"></div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState" role="status" aria-live="polite">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M8 11h6M11 8v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+      </div>
+      <h3 class="empty-title">No reports found</h3>
+      <p class="empty-sub">We couldn't find any reports matching your search. Try a different keyword or browse by category.</p>
+      <button class="empty-reset" id="emptyReset">Clear search</button>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <img
+            src="https://i.ibb.co/4ZfFhcZX/Logo-bcbbb.png"
+            alt="Barrick Academy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+        <span class="footer-copy">
+          <strong>Barrick Academy Reports Hub</strong> — For internal use only
+        </span>
+      </div>
+      <div class="footer-right">
+        <span>Maintained by Darlene Sanz</span>
+        <span class="footer-dot"></span>
+        <span id="footerYear"></span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+
+    /* ===========================================================
+       ╔══════════════════════════════════════════╗
+       ║   REPORT DATA — Edit this array to       ║
+       ║   add / remove / update reports.         ║
+       ╚══════════════════════════════════════════╝
+
+       Each report object accepts:
+         title       — Display name shown on the card
+         description — Short summary (1–2 sentences)
+         category    — Must match one of the 6 categories:
+                       "Trainings / Skills"
+                       "Learning Path"
+                       "Internal"
+                       "Daily Reports"
+                       "General"
+                       "In Progress"
+         url         — Full URL opened in a new tab
+    =========================================================== */
+    const reports = [
+
+      /* ── Training & Skills ── */
+      {
+        title: "FLRA Report",
+        description: "Daily monitoring of Field Level Risk Assessment (FLRA) competency compliance for leaders and employees. Update frequency: Monday to Friday.",
+        category: "Training & Skills",
+        url: "https://app.powerbi.com/groups/me/reports/c01ff160-1483-4e16-9bd3-c4d3f9fad9f6/b20dcab12f87d23c9ea5?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&experience=power-bi"
+      },
+      {
+        title: "Permit Report (Issuer & Receiver)",
+        description: "Tracks compliance for Permit Issuer and Permit Receiver training, including attendance and absence monitoring by area. Update frequency: Weekly (Mondays).",
+        category: "Training & Skills",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/c3d53484-9532-42c0-9e4c-869f11886587/31b6b13a170b6fe336d3?experience=power-bi&bookmarkGuid=dba7aeb779ba3c60b287"
+      },
+      {
+        title: "Demonstrates Environmental Stewardship",
+        description: "Monitors compliance with the Demonstrates Environmental Stewardship competency across employees. Update frequency: Daily.",
+        category: "Training & Skills",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/1edf3f05-ddfa-44e0-bcca-8160196d6062/a69912514e4843960062?experience=power-bi"
+      },
+
+      /* ── Learning Paths ── */
+      {
+        title: "Learning Paths Dashboard",
+        description: "Displays total participants by area and Learning Path, highlights the paths with the highest participation, and shows the most recently completed requirements.",
+        category: "Learning Paths",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/99819bbb-1190-4f95-a464-3eae825c80db/897b7e5896fdfa354962?experience=power-bi"
+      },
+
+      /* ── Internal Reports ── */
+      {
+        title: "Leadership and Organizational Culture – Survey",
+        description: "Summary and analysis of results from the Leadership and Organizational Culture survey.",
+        category: "Internal Reports",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/04978ab7-d075-4481-8edb-e1b4d38e2a52/98d89450d030b0570212?experience=power-bi"
+      },
+
+      /* ── Daily Reports ── */
+      {
+        title: "Daily Compliance Report",
+        description: "Daily report identifying employees with expired or soon-to-expire competencies, supporting compliance monitoring and follow-up.",
+        category: "Daily Reports",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/315b0aac-63c3-45ff-b093-59c60f27a7ec/0edd154076b911eaa106?experience=power-bi"
+      },
+
+      /* ── General Reports ── */
+      {
+        title: "Trainer Performance",
+        description: "Tracks trainer performance, delivered sessions, and training activity metrics.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/links/itEPhWklac?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&pbi_source=linkShare"
+      },
+      {
+        title: "Training Systems Audit Tracker",
+        description: "Tracker used to monitor training system audit activities and follow-up actions.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/links/bj0ErcgHMP?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&pbi_source=linkShare"
+      },
+      {
+        title: "Code of Conduct Compliance",
+        description: "Monitors compliance with the Code of Conduct training requirement.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/groups/561cfc84-ad97-40e3-acd1-fc5872a83170/reports/bee5c65a-5582-445c-8be1-f517a5a951e1/a69912514e4843960062?experience=power-bi"
+      },
+      {
+        title: "Student Programs",
+        description: "Report tracking students participating in Barrick Academy programs.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/links/t0426I9Arg?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&pbi_source=linkShare"
+      },
+      {
+        title: "Community Operators",
+        description: "Tracks the Community Operators program, including hiring status, candidates in process, and authorization status.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/links/ZG_hwVFuD8?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&pbi_source=linkShare"
+      },
+      {
+        title: "Language Programs",
+        description: "Report used to monitor language training programs and participant progress.",
+        category: "General Reports",
+        url: "https://app.powerbi.com/links/4Y-drDf_Ps?ctid=c05261c1-4aae-48dc-b1f6-fde04ad750d9&pbi_source=linkShare"
+      },
+
+      /* ── In Progress ── */
+      {
+        title: "Process Mechanics Technical Evaluations",
+        description: "Report currently under development. Coming soon.",
+        category: "In Progress",
+        url: null
+      },
+      {
+        title: "Neper – Report",
+        description: "Report currently under development. Coming soon.",
+        category: "In Progress",
+        url: null
+      },
+      {
+        title: "Training Hours Report",
+        description: "Report currently under development. Coming soon.",
+        category: "In Progress",
+        url: null
+      }
+
+    ];
+
+
+    /* ===========================================================
+       CATEGORY → BADGE CSS CLASS MAP
+       Add new categories here following the same pattern.
+    =========================================================== */
+    const badgeMap = {
+      "Training & Skills":  "badge-trainings",
+      "Learning Paths":     "badge-learning",
+      "Internal Reports":   "badge-internal",
+      "Daily Reports":      "badge-daily",
+      "General Reports":    "badge-general",
+      "In Progress":        "badge-inprogress"
+    };
+
+    function badgeClass(category) {
+      return badgeMap[category] || 'badge-default';
+    }
+
+
+    /* ===========================================================
+       CATEGORY → ICON SVG MAP
+    =========================================================== */
+    const categoryIcons = {
+      "Training & Skills":  `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3L2 7l8 4 8-4-8-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5 9v5a7 7 0 0 0 10 0V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+      "Learning Paths":     `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 17c2-4 5-6 8-6s6 2 8 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 10.5v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+      "Internal Reports":   `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 17h6M10 15v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M6 8l2 2-2 2M10 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      "Daily Reports":      `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 2v3M13 2v3M3 9h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M7 13h1.5M11 13h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+      "General Reports":    `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10.5h6M7 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+      "In Progress":        `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      default:              `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`
+    };
+
+    function iconFor(category) {
+      return categoryIcons[category] || categoryIcons.default;
+    }
+
+
+    /* ===========================================================
+       ICON REUSED FOR SECTION HEADERS
+    =========================================================== */
+    function sectionIconFor(category) {
+      return categoryIcons[category] || categoryIcons.default;
+    }
+
+
+    /* ===========================================================
+       INLINE SVGs FOR BUTTONS
+    =========================================================== */
+    const externalIcon = `<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 2h3v3M12 2L7.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const arrowIcon   = `<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const clockIcon   = `<svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 4.5v2.8l1.8 1.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+
+    /* ===========================================================
+       DOM REFERENCES
+    =========================================================== */
+    const searchInput    = document.getElementById('searchInput');
+    const searchClear    = document.getElementById('searchClear');
+    const searchSummary  = document.getElementById('searchSummary');
+    const filterRow      = document.getElementById('filterRow');
+    const reportSections = document.getElementById('reportSections');
+    const emptyState     = document.getElementById('emptyState');
+    const emptyReset     = document.getElementById('emptyReset');
+    const totalCount     = document.getElementById('totalCount');
+    const catCount       = document.getElementById('catCount');
+    const headerMeta     = document.getElementById('headerMeta');
+    const footerYear     = document.getElementById('footerYear');
+
+
+    /* ===========================================================
+       STATE
+    =========================================================== */
+    let currentQuery    = '';
+    let currentCategory = 'All';
+
+
+    /* ===========================================================
+       UTILITIES
+    =========================================================== */
+
+    /** Returns unique categories preserving insertion order */
+    function getCategories() {
+      const seen = new Set();
+      reports.forEach(r => seen.add(r.category));
+      return Array.from(seen);
+    }
+
+    /** Basic HTML escape to prevent XSS */
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.appendChild(document.createTextNode(String(str)));
+      return d.innerHTML;
+    }
+
+
+    /* ===========================================================
+       BUILD FILTER BUTTONS
+    =========================================================== */
+    function buildFilters() {
+      const categories = getCategories();
+      const all = ['All', ...categories];
+
+      filterRow.innerHTML = `<span class="filter-label">Filter</span>`;
+
+      all.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (cat === currentCategory ? ' active' : '');
+        btn.textContent = cat;
+        btn.setAttribute('aria-pressed', cat === currentCategory ? 'true' : 'false');
+        btn.addEventListener('click', () => {
+          currentCategory = cat;
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.toggle('active', b.textContent === cat);
+            b.setAttribute('aria-pressed', b.textContent === cat ? 'true' : 'false');
+          });
+          render();
+        });
+        filterRow.appendChild(btn);
+      });
+    }
+
+
+    /* ===========================================================
+       BUILD A SINGLE REPORT CARD
+    =========================================================== */
+    function buildCard(report) {
+      const card = document.createElement('article');
+      card.className = 'report-card' + (report.url === null ? ' card-pending' : '');
+      card.setAttribute('aria-label', report.title);
+
+      const footerContent = report.url
+        ? `
+          <a class="btn-open"
+             href="${escapeHtml(report.url)}"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Open ${escapeHtml(report.title)}">
+            Open Report ${externalIcon}
+          </a>
+          <a class="card-arrow"
+             href="${escapeHtml(report.url)}"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Go to ${escapeHtml(report.title)}">
+            ${arrowIcon}
+          </a>`
+        : `<span class="btn-coming-soon">${clockIcon} Coming Soon</span>`;
+
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="card-badge ${badgeClass(report.category)}">${escapeHtml(report.category)}</span>
+          <div class="card-icon">${iconFor(report.category)}</div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${escapeHtml(report.title)}</h3>
+          <p class="card-description">${escapeHtml(report.description)}</p>
+        </div>
+        <div class="card-footer">${footerContent}</div>
+      `;
+
+      return card;
+    }
+
+
+    /* ===========================================================
+       MAIN RENDER FUNCTION
+    =========================================================== */
+    function render() {
+      const query = currentQuery.trim().toLowerCase();
+
+      // Filter by active category + search query
+      const filtered = reports.filter(r => {
+        const matchesCategory = currentCategory === 'All' || r.category === currentCategory;
+        const matchesSearch   = !query ||
+          r.title.toLowerCase().includes(query) ||
+          r.description.toLowerCase().includes(query) ||
+          r.category.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
+
+      // Group filtered reports by category (preserving original order)
+      const grouped = {};
+      filtered.forEach(r => {
+        if (!grouped[r.category]) grouped[r.category] = [];
+        grouped[r.category].push(r);
+      });
+
+      // Clear existing sections
+      reportSections.innerHTML = '';
+
+      // Show/hide empty state
+      if (filtered.length === 0) {
+        emptyState.classList.add('visible');
+        searchSummary.innerHTML = `&nbsp;`;
+        return;
+      }
+
+      emptyState.classList.remove('visible');
+
+      // Search result summary
+      if (query) {
+        searchSummary.innerHTML = `Found <strong>${filtered.length}</strong> result${filtered.length === 1 ? '' : 's'} for "<strong>${escapeHtml(currentQuery.trim())}</strong>"`;
+      } else {
+        searchSummary.innerHTML = `&nbsp;`;
+      }
+
+      // Build each category section
+      Object.entries(grouped).forEach(([cat, items]) => {
+        const section = document.createElement('div');
+        section.className = 'category-section';
+
+        section.innerHTML = `
+          <div class="section-header">
+            <div class="section-icon">${sectionIconFor(cat)}</div>
+            <span class="section-title">${escapeHtml(cat)}</span>
+            <span class="section-count">${items.length}</span>
+            <span class="section-line"></span>
+          </div>
+        `;
+
+        const grid = document.createElement('div');
+        grid.className = 'report-grid';
+        items.forEach(r => grid.appendChild(buildCard(r)));
+
+        section.appendChild(grid);
+        reportSections.appendChild(section);
+      });
+    }
+
+
+    /* ===========================================================
+       SEARCH INTERACTIONS
+    =========================================================== */
+    searchInput.addEventListener('input', () => {
+      currentQuery = searchInput.value;
+      searchClear.classList.toggle('visible', currentQuery.length > 0);
+      render();
+    });
+
+    searchClear.addEventListener('click', clearSearch);
+    emptyReset.addEventListener('click', clearSearch);
+
+    function clearSearch() {
+      searchInput.value = '';
+      currentQuery = '';
+      searchClear.classList.remove('visible');
+      searchSummary.innerHTML = `&nbsp;`;
+      render();
+      searchInput.focus();
+    }
+
+
+    /* ===========================================================
+       INITIALISE
+    =========================================================== */
+    function init() {
+      const categories = getCategories();
+      totalCount.textContent = reports.length;
+      catCount.textContent   = categories.length;
+      headerMeta.textContent = `${reports.length} Reports · ${categories.length} Categories`;
+      footerYear.textContent = new Date().getFullYear();
+
+      buildFilters();
+      render();
+    }
+
+    // Kick off on page load
+    init();
+
+  </script>
+</body>
+</html>
