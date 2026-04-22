@@ -837,6 +837,103 @@
     }
 
     /* =========================================================
+       HERO ACTION BUTTONS (Calendar + View Toggle)
+    ========================================================= */
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn-calendar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--white);
+      background: var(--blue);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--blue);
+      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn-calendar svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-calendar:hover {
+      background: var(--blue-dark);
+      border-color: var(--blue-dark);
+      box-shadow: 0 4px 16px rgba(0,85,126,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-view-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--blue);
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--blue-mid);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn-view-toggle svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-view-toggle:hover {
+      background: var(--blue-light);
+      border-color: var(--blue);
+      box-shadow: 0 2px 10px rgba(0,85,126,0.12);
+    }
+    .btn-view-toggle.forms-active {
+      background: var(--gold-light);
+      color: #6b5c38;
+      border-color: var(--gold-mid);
+    }
+    .btn-view-toggle.forms-active:hover {
+      background: #ede7d4;
+      border-color: var(--gold);
+    }
+
+    /* View indicator pill in the main content area */
+    .view-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 13px;
+      border-radius: 30px;
+      margin-bottom: 8px;
+    }
+    .view-indicator.reports-ind {
+      background: var(--blue-light);
+      color: var(--blue);
+      border: 1px solid var(--blue-mid);
+    }
+    .view-indicator.forms-ind {
+      background: var(--gold-light);
+      color: #6b5c38;
+      border: 1px solid var(--gold-mid);
+    }
+
+    /* Forms-specific badge colors */
+    .badge-students   { background: #EDF4EE; color: #3A6B44; border: 1px solid #BDD6C1; }
+    .badge-gen-forms  { background: #FFF0EC; color: #884030; border: 1px solid #F0C8BC; }
+    .badge-ip-forms   { background: #FFF8E6; color: #856020; border: 1px solid #E8D898; }
+
+    /* =========================================================
        CARD STAGGER ANIMATIONS
     ========================================================= */
     .report-card:nth-child(1)  { animation-delay: 0.03s; }
@@ -962,6 +1059,30 @@
 
       <p class="search-summary" id="searchSummary" aria-live="polite">&nbsp;</p>
 
+      <!-- ACTION BUTTONS -->
+      <div class="hero-actions">
+        <a class="btn-calendar"
+           href="https://dsanzmbarrick.github.io/barrickacademy-calendar/menu.html"
+           target="_blank"
+           rel="noopener noreferrer">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7 2v3M13 2v3M3 9h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M7 13h1.5M11 13h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          View Calendar &amp; Map
+        </a>
+        <button class="btn-view-toggle" id="viewToggleBtn" onclick="toggleView()">
+          <svg id="viewToggleIcon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="11" y="11" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span id="viewToggleLabel">View Forms</span>
+        </button>
+      </div>
+
     </div>
   </section>
 
@@ -1062,12 +1183,6 @@
     const reports = [
 
       /* ── Training & Skills ── */
-      {
-        title: "Calendar & Map Barrick Academy",
-        description: "Weekly schedule of the rooms and map of Barrick Academy.",
-        category: "Training & Skills",
-        url: "https://dsanzmbarrick.github.io/barrickacademy-calendar/menu.html"
-      },
       {
         title: "General Report",
         description: "Monitoring of competency for all the employees.",
@@ -1213,10 +1328,95 @@
       }
     ];
 
+    /* ===========================================================
+       FORMS DATA — Edit this array to add / remove / update forms.
+       categories: "Students" | "General" | "In Progress"
+    =========================================================== */
+    const forms = [
+
+      /* ── Students ── */
+      {
+        title: "Student Enrollment Form",
+        description: "Form currently under development. Coming soon.",
+        category: "Students",
+        url: null
+      },
+      {
+        title: "Student Progress Evaluation",
+        description: "Form currently under development. Coming soon.",
+        category: "Students",
+        url: null
+      },
+
+      /* ── General ── */
+      {
+        title: "Training Request Form",
+        description: "Form currently under development. Coming soon.",
+        category: "General",
+        url: null
+      },
+      {
+        title: "Incident / Non-Conformance Report",
+        description: "Form currently under development. Coming soon.",
+        category: "General",
+        url: null
+      },
+
+      /* ── In Progress ── */
+      {
+        title: "Competency Validation Form",
+        description: "Form currently under development. Coming soon.",
+        category: "In Progress",
+        url: null
+      },
+      {
+        title: "Trainer Feedback Form",
+        description: "Form currently under development. Coming soon.",
+        category: "In Progress",
+        url: null
+      }
+    ];
+
+    /* ===========================================================
+       VIEW STATE
+    =========================================================== */
+    let currentView = 'reports'; // 'reports' | 'forms'
+
+    function toggleView() {
+      currentView = currentView === 'reports' ? 'forms' : 'reports';
+      const btn   = document.getElementById('viewToggleBtn');
+      const label = document.getElementById('viewToggleLabel');
+      const icon  = document.getElementById('viewToggleIcon');
+
+      if (currentView === 'forms') {
+        label.textContent = 'View Reports';
+        btn.classList.add('forms-active');
+        icon.innerHTML = `<rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10.5h6M7 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`;
+      } else {
+        label.textContent = 'View Forms';
+        btn.classList.remove('forms-active');
+        icon.innerHTML = `<rect x="3" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>`;
+      }
+
+      // Reset search and filters when switching views
+      searchInput.value = '';
+      currentQuery = '';
+      searchClear.classList.remove('visible');
+      searchSummary.innerHTML = `&nbsp;`;
+      currentCategory = 'All';
+
+      const cats = getCategories();
+      totalCount.textContent = cats.totalItems;
+      catCount.textContent   = cats.totalCats;
+      headerMeta.textContent = `${cats.totalItems} ${currentView === 'forms' ? 'Forms' : 'Reports'} · ${cats.totalCats} Categories`;
+
+      buildFilters();
+      render();
+    }
+
 
     /* ===========================================================
        CATEGORY → BADGE CSS CLASS MAP
-       Add new categories here following the same pattern.
     =========================================================== */
     const badgeMap = {
       "Training & Skills":  "badge-trainings",
@@ -1224,10 +1424,14 @@
       "Internal Reports":   "badge-internal",
       "Daily Reports":      "badge-daily",
       "General Reports":    "badge-general",
-      "In Progress":        "badge-inprogress"
+      "In Progress":        "badge-inprogress",
+      // Forms categories
+      "Students":           "badge-students",
+      "General":            "badge-gen-forms",
     };
 
     function badgeClass(category) {
+      if (category === "In Progress") return 'badge-inprogress';
       return badgeMap[category] || 'badge-default';
     }
 
@@ -1242,6 +1446,9 @@
       "Daily Reports":      `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="14" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 2v3M13 2v3M3 9h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M7 13h1.5M11 13h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
       "General Reports":    `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10.5h6M7 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
       "In Progress":        `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      // Forms
+      "Students":           `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+      "General":            `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10.5h6M7 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
       default:              `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`
     };
 
@@ -1295,9 +1502,16 @@
 
     /** Returns unique categories preserving insertion order */
     function getCategories() {
+      const data = currentView === 'forms' ? forms : reports;
       const seen = new Set();
-      reports.forEach(r => seen.add(r.category));
-      return Array.from(seen);
+      data.forEach(r => seen.add(r.category));
+      const cats = Array.from(seen);
+      return { cats, totalItems: data.length, totalCats: cats.length };
+    }
+
+    /** Returns the active dataset */
+    function activeData() {
+      return currentView === 'forms' ? forms : reports;
     }
 
     /** Basic HTML escape to prevent XSS */
@@ -1312,8 +1526,8 @@
        BUILD FILTER BUTTONS
     =========================================================== */
     function buildFilters() {
-      const categories = getCategories();
-      const all = ['All', ...categories];
+      const { cats } = getCategories();
+      const all = ['All', ...cats];
 
       filterRow.innerHTML = `<span class="filter-label">Filter</span>`;
 
@@ -1382,9 +1596,10 @@
     =========================================================== */
     function render() {
       const query = currentQuery.trim().toLowerCase();
+      const data  = activeData();
 
       // Filter by active category + search query
-      const filtered = reports.filter(r => {
+      const filtered = data.filter(r => {
         const matchesCategory = currentCategory === 'All' || r.category === currentCategory;
         const matchesSearch   = !query ||
           r.title.toLowerCase().includes(query) ||
@@ -1414,7 +1629,8 @@
 
       // Search result summary
       if (query) {
-        searchSummary.innerHTML = `Found <strong>${filtered.length}</strong> result${filtered.length === 1 ? '' : 's'} for "<strong>${escapeHtml(currentQuery.trim())}</strong>"`;
+        const label = currentView === 'forms' ? 'form' : 'report';
+        searchSummary.innerHTML = `Found <strong>${filtered.length}</strong> ${label}${filtered.length === 1 ? '' : 's'} for "<strong>${escapeHtml(currentQuery.trim())}</strong>"`;
       } else {
         searchSummary.innerHTML = `&nbsp;`;
       }
@@ -1469,10 +1685,10 @@
        INITIALISE
     =========================================================== */
     function init() {
-      const categories = getCategories();
-      totalCount.textContent = reports.length;
-      catCount.textContent   = categories.length;
-      headerMeta.textContent = `${reports.length} Reports · ${categories.length} Categories`;
+      const { totalItems, totalCats } = getCategories();
+      totalCount.textContent = totalItems;
+      catCount.textContent   = totalCats;
+      headerMeta.textContent = `${totalItems} Reports · ${totalCats} Categories`;
       footerYear.textContent = new Date().getFullYear();
 
       buildFilters();
